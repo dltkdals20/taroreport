@@ -704,11 +704,12 @@ select {
 .buyer-card {
   padding: 16px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--stroke);
+  border: 2px solid rgba(246, 195, 86, 0.6);
   background: rgba(255, 255, 255, 0.02);
   text-align: center;
   display: grid;
   gap: 10px;
+  box-shadow: 0 0 15px rgba(246, 195, 86, 0.2);
 }
 
 .flip-card {
