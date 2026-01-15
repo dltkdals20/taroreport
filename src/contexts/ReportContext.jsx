@@ -12,6 +12,7 @@ export function ReportProvider({ children }) {
   const [activeReportId, setActiveReportId] = useState(initialReports[0]?.id ?? null);
   const [saveStatus, setSaveStatus] = useState('idle'); // 'idle' | 'saving' | 'saved' | 'error'
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [savedReports, setSavedReports] = useState([]); // 저장된 리포트 이력
   const saveTimers = useRef(new Map());
   const offlineQueue = useRef(new Map()); // 오프라인 시 저장 대기 큐
 
@@ -59,6 +60,20 @@ export function ReportProvider({ children }) {
       setSaveStatus('saved');
       // saved 상태를 3초 유지
       setTimeout(() => setSaveStatus('idle'), 3000);
+      
+      // 저장 이력에 추가
+      setSavedReports((prev) => {
+        const filtered = prev.filter((r) => r.id !== report.id);
+        return [
+          {
+            id: report.id,
+            customer_name: report.customer_name,
+            updated_at: new Date().toISOString(),
+            status: report.status
+          },
+          ...filtered
+        ];
+      });
       
       console.log('[supabase] report saved successfully', report.id);
     } catch (err) {
@@ -214,8 +229,9 @@ export function ReportProvider({ children }) {
     isSupabaseConfigured,
     saveStatus,
     isOnline,
-    saveReportNow
-  }), [activeReportId, ensureShareToken, replaceReports, reports, setActiveReportId, updateReport, saveStatus, isOnline, saveReportNow]);
+    saveReportNow,
+    savedReports
+  }), [activeReportId, ensureShareToken, replaceReports, reports, setActiveReportId, updateReport, saveStatus, isOnline, saveReportNow, savedReports]);
 
   return <ReportContext.Provider value={value}>{children}</ReportContext.Provider>;
 }

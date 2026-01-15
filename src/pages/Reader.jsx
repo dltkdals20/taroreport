@@ -43,13 +43,15 @@ export default function Reader() {
     isSupabaseConfigured,
     saveStatus,
     isOnline,
-    saveReportNow
+    saveReportNow,
+    savedReports
   } = useReportContext();
   const { signOut } = useAuth();
   const [statusFilter, setStatusFilter] = useState('pending');
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalTargetIndex, setModalTargetIndex] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [savedListOpen, setSavedListOpen] = useState(false);
   const [activeField, setActiveField] = useState(null);
   const [toast, setToast] = useState('');
   const [dragIndex, setDragIndex] = useState(null);
@@ -285,6 +287,7 @@ export default function Reader() {
         </div>
         <div className="top-actions">
           <button className="btn ghost" type="button" onClick={() => navigate('/')}>홈으로</button>
+          <button className="btn ghost" type="button" onClick={() => setSavedListOpen(true)}>📋 저장 목록 ({savedReports.length})</button>
           <button className="btn ghost" type="button" onClick={() => setPreviewOpen(true)}>미리보기</button>
           <button className="btn ghost" type="button" onClick={() => signOut()}>로그아웃</button>
         </div>
@@ -501,6 +504,80 @@ export default function Reader() {
       )}
 
       {toast && <div className="toast">{toast}</div>}
+
+      {/* 저장 목록 모달 */}
+      {savedListOpen && (
+        <div className="modal-backdrop" role="presentation" onClick={() => setSavedListOpen(false)}>
+          <div
+            className="modal"
+            role="dialog"
+            aria-modal="true"
+            onClick={(event) => event.stopPropagation()}
+            style={{ maxWidth: '600px' }}
+          >
+            <header className="modal-header">
+              <h2>📋 저장 목록</h2>
+              <button className="icon-btn" onClick={() => setSavedListOpen(false)} aria-label="닫기">✕</button>
+            </header>
+
+            <div style={{ padding: '16px 20px 20px', overflowY: 'auto', maxHeight: '70vh' }}>
+              {savedReports.length === 0 ? (
+                <p style={{ color: 'var(--text-2)', textAlign: 'center' }}>저장된 리포트가 없습니다.</p>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {savedReports.map((report) => (
+                    <button
+                      key={report.id}
+                      type="button"
+                      onClick={() => {
+                        handleSelectReport(report.id);
+                        setSavedListOpen(false);
+                      }}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.02)',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 'var(--radius-md)',
+                        padding: '14px 16px',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        gap: '12px'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.borderColor = 'rgba(246, 195, 86, 0.5)';
+                        e.target.style.boxShadow = '0 0 0 1px rgba(246, 195, 86, 0.2)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.borderColor = 'var(--stroke)';
+                        e.target.style.boxShadow = 'none';
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>
+                        <p style={{ fontWeight: '700', marginBottom: '4px' }}>
+                          {report.customer_name}
+                        </p>
+                        <p style={{ fontSize: '12px', color: 'var(--text-2)', marginBottom: '4px' }}>
+                          {new Date(report.updated_at).toLocaleString('ko-KR')}
+                        </p>
+                        <span
+                          className={`status ${report.status}`}
+                          style={{ fontSize: '11px' }}
+                        >
+                          {report.status === 'pending' ? '대기' : report.status === 'completed' ? '완료' : '임시'}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: '20px' }}>✅</div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
