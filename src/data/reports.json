@@ -1,0 +1,60 @@
+[
+  {
+    "id": "report_001",
+    "customer_name": "김OO",
+    "request_date": "2024-01-15",
+    "question": "연애운이 궁금해요",
+    "status": "pending",
+    "spread_name": "과거/현재/미래",
+    "cards": [
+      {
+        "card_id": 0,
+        "position": "과거",
+        "direction": "upright",
+        "interpretation": "새로운 시작을 향한 순수한 마음이 있었어요. 상황을 가볍게 바라보며 기회를 열었던 시기입니다."
+      },
+      {
+        "card_id": 1,
+        "position": "현재",
+        "direction": "reversed",
+        "interpretation": "의사결정이 지연되거나 확신이 부족해 보입니다. 상대에게 전달하고 싶은 의도가 흐려질 수 있어요."
+      },
+      {
+        "card_id": 2,
+        "position": "미래",
+        "direction": "upright",
+        "interpretation": "직관이 중요한 시점입니다. 말하지 않아도 느껴지는 감정들을 믿어보세요."
+      }
+    ],
+    "overall_advice": "너무 서두르지 말고 흐름을 관찰해 주세요. 대화를 시작할 타이밍을 정하면 관계가 부드럽게 풀립니다."
+  },
+  {
+    "id": "report_002",
+    "customer_name": "박OO",
+    "request_date": "2024-01-12",
+    "question": "이직 운을 보고 싶어요",
+    "status": "completed",
+    "spread_name": "상황/장애물/조언",
+    "cards": [
+      {
+        "card_id": 22,
+        "position": "상황",
+        "direction": "upright",
+        "interpretation": "새로운 시도를 향한 열정이 높습니다. 기회를 잡기 위한 준비가 잘 되어 있어요."
+      },
+      {
+        "card_id": 51,
+        "position": "장애물",
+        "direction": "reversed",
+        "interpretation": "결정 장애가 생기거나 균형을 잡기 어려운 상태입니다. 우선순위를 다시 정해보세요."
+      },
+      {
+        "card_id": 64,
+        "position": "조언",
+        "direction": "upright",
+        "interpretation": "재정적 안정과 현실적인 계획이 핵심입니다. 조건과 보상을 구체적으로 확인하세요."
+      }
+    ],
+    "overall_advice": "충분한 정보 수집 후 움직이면 리스크가 줄어듭니다. 추천서나 포트폴리오를 보강해보세요."
+  }
+]
