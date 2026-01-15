@@ -32,7 +32,7 @@ export function ReportProvider({ children }) {
   const upsertReport = useCallback(async (report) => {
     if (!supabase || !user) {
       setSaveStatus('error');
-      setTimeout(() => setSaveStatus('idle'), 2000);
+      setTimeout(() => setSaveStatus('idle'), 3000);
       return;
     }
 
@@ -57,7 +57,10 @@ export function ReportProvider({ children }) {
       offlineQueue.current.delete(report.id);
 
       setSaveStatus('saved');
-      setTimeout(() => setSaveStatus('idle'), 2000);
+      // saved 상태를 3초 유지
+      setTimeout(() => setSaveStatus('idle'), 3000);
+      
+      console.log('[supabase] report saved successfully', report.id);
     } catch (err) {
       console.error('[supabase] report upsert failed', err);
       setSaveStatus('error');
@@ -67,11 +70,15 @@ export function ReportProvider({ children }) {
         offlineQueue.current.set(report.id, report);
       }
 
-      setTimeout(() => setSaveStatus('idle'), 2000);
+      setTimeout(() => setSaveStatus('idle'), 3000);
     }
   }, [user, isOnline]);
 
   const queueSave = useCallback((report) => {
+    // ⚠️ 자동 저장 비활성화
+    // 명시적 저장 버튼만 사용
+    // 필요시 이 함수를 통해 저장
+    
     if (!supabase || !user) {
       return;
     }
@@ -143,6 +150,15 @@ export function ReportProvider({ children }) {
     return token;
   }, [reports, setReports, upsertReport]);
 
+  // 명시적 저장 함수 (저장 버튼 클릭 시)
+  const saveReportNow = useCallback(async (id) => {
+    const report = reports.find((r) => r.id === id);
+    if (!report) {
+      return;
+    }
+    await upsertReport(report);
+  }, [reports, upsertReport]);
+
   // 온라인 복귀 시 오프라인 큐 재시도
   useEffect(() => {
     if (!isOnline || offlineQueue.current.size === 0) {
@@ -197,8 +213,9 @@ export function ReportProvider({ children }) {
     ensureShareToken,
     isSupabaseConfigured,
     saveStatus,
-    isOnline
-  }), [activeReportId, ensureShareToken, replaceReports, reports, setActiveReportId, updateReport, saveStatus, isOnline]);
+    isOnline,
+    saveReportNow
+  }), [activeReportId, ensureShareToken, replaceReports, reports, setActiveReportId, updateReport, saveStatus, isOnline, saveReportNow]);
 
   return <ReportContext.Provider value={value}>{children}</ReportContext.Provider>;
 }

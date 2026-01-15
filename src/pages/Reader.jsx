@@ -42,7 +42,8 @@ export default function Reader() {
     ensureShareToken,
     isSupabaseConfigured,
     saveStatus,
-    isOnline
+    isOnline,
+    saveReportNow
   } = useReportContext();
   const { signOut } = useAuth();
   const [statusFilter, setStatusFilter] = useState('pending');
@@ -228,8 +229,15 @@ export default function Reader() {
     }
   };
 
-  const handleSave = () => {
-    showToast('임시 저장 완료');
+  const handleSave = async () => {
+    if (!activeReport) return;
+    
+    try {
+      // 명시적 저장 - 저장 버튼 클릭 시에만
+      await saveReportNow(activeReport.id);
+    } catch (error) {
+      console.error('Save error:', error);
+    }
   };
 
   const handleGenerateLink = async () => {
@@ -429,7 +437,9 @@ export default function Reader() {
               />
 
               <div className="editor-actions">
-                <button className="btn ghost" type="button" onClick={handleSave}>임시저장</button>
+                <button className="btn ghost" type="button" onClick={handleSave}>
+                  {saveStatus === 'saving' ? '💾 저장 중...' : '✅ 저장'}
+                </button>
                 <button className="btn ghost" type="button" onClick={() => setPreviewOpen(true)}>
                   미리보기
                 </button>
@@ -451,7 +461,7 @@ export default function Reader() {
               )}
               {saveStatus === 'error' && (
                 <div className="save-status error">
-                  <span>❌ {isOnline ? '저장 실패' : '오프라인 (자동 동기화 대기)'}</span>
+                  <span>❌ {isOnline ? '저장 실패' : '오프라인 (연결 후 저장 가능)'}</span>
                 </div>
               )}
 
