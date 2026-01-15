@@ -910,6 +910,48 @@ select {
   box-shadow: var(--shadow);
 }
 
+/* 저장 상태 표시 */
+.save-status {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.save-status.saving {
+  background: rgba(61, 214, 192, 0.15);
+  border: 1px solid rgba(61, 214, 192, 0.3);
+  color: #9ef0df;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.save-status.saved {
+  background: rgba(147, 245, 207, 0.15);
+  border: 1px solid rgba(147, 245, 207, 0.3);
+  color: #93f5cf;
+}
+
+.save-status.error {
+  background: rgba(232, 106, 106, 0.15);
+  border: 1px solid rgba(232, 106, 106, 0.3);
+  color: #ff9aa8;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
 .auth {
   display: grid;
   place-items: center;

@@ -12,6 +12,14 @@ export default function CardEditorItem({
   onSelectCard,
   onFocusField
 }) {
+  // entry.id가 없으면 생성 (새로운 entry의 경우)
+  const entryId = entry.id || `card_entry_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+  
+  // id가 없으면 업데이트
+  if (!entry.id) {
+    onUpdate({ id: entryId });
+  }
+
   const directionLabel = entry.direction === 'reversed' ? '역방향 ▼' : '정방향 ▲';
 
   return (

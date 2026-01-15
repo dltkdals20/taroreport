@@ -40,7 +40,9 @@ export default function Reader() {
     setActiveReportId,
     updateReport,
     ensureShareToken,
-    isSupabaseConfigured
+    isSupabaseConfigured,
+    saveStatus,
+    isOnline
   } = useReportContext();
   const { signOut } = useAuth();
   const [statusFilter, setStatusFilter] = useState('pending');
@@ -95,6 +97,7 @@ export default function Reader() {
     if (!activeReport) return;
     updateReport(activeReport.id, (report) => {
       const entry = {
+        id: `card_entry_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
         card_id: cardId,
         position: '',
         direction,
@@ -103,7 +106,15 @@ export default function Reader() {
       const nextCards = [...report.cards];
       if (modalTargetIndex !== null) {
         const target = nextCards[modalTargetIndex] || entry;
-        nextCards[modalTargetIndex] = { ...target, card_id: cardId, direction };
+        // ✅ interpretation과 position을 명시적으로 보존
+        nextCards[modalTargetIndex] = {
+          ...target,
+          id: target.id || entry.id,
+          card_id: cardId,
+          direction,
+          position: target.position || '', // 기존 위치 의미 유지
+          interpretation: target.interpretation || '' // 기존 해석 유지
+        };
       } else {
         nextCards.push(entry);
       }
@@ -365,7 +376,7 @@ export default function Reader() {
               <div className="editor-cards">
                 {activeReport.cards.map((entry, index) => (
                   <CardEditorItem
-                    key={`${entry.card_id ?? 'none'}-${index}`}
+                    key={entry.id || `temp_${index}`}
                     entry={entry}
                     index={index}
                     card={cardsById.get(entry.card_id)}
@@ -422,8 +433,27 @@ export default function Reader() {
                 <button className="btn ghost" type="button" onClick={() => setPreviewOpen(true)}>
                   미리보기
                 </button>
-                <button className="btn primary" type="button" onClick={handleGenerateLink}>링크 생성</button>
+                <button className="btn primary" type="button" onClick={handleGenerateLink}>
+                  {isOnline ? '링크 생성' : '오프라인 (연결 대기)'}
+                </button>
               </div>
+
+              {/* 저장 상태 표시 */}
+              {saveStatus === 'saving' && (
+                <div className="save-status saving">
+                  <span>💾 저장 중...</span>
+                </div>
+              )}
+              {saveStatus === 'saved' && (
+                <div className="save-status saved">
+                  <span>✅ 저장됨</span>
+                </div>
+              )}
+              {saveStatus === 'error' && (
+                <div className="save-status error">
+                  <span>❌ {isOnline ? '저장 실패' : '오프라인 (자동 동기화 대기)'}</span>
+                </div>
+              )}
 
               {shareLink && (
                 <div className="share-link">

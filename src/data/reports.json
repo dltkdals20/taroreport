@@ -8,18 +8,21 @@
     "spread_name": "과거/현재/미래",
     "cards": [
       {
+        "id": "card_entry_001_001",
         "card_id": 0,
         "position": "과거",
         "direction": "upright",
         "interpretation": "새로운 시작을 향한 순수한 마음이 있었어요. 상황을 가볍게 바라보며 기회를 열었던 시기입니다."
       },
       {
+        "id": "card_entry_001_002",
         "card_id": 1,
         "position": "현재",
         "direction": "reversed",
         "interpretation": "의사결정이 지연되거나 확신이 부족해 보입니다. 상대에게 전달하고 싶은 의도가 흐려질 수 있어요."
       },
       {
+        "id": "card_entry_001_003",
         "card_id": 2,
         "position": "미래",
         "direction": "upright",
@@ -37,18 +40,21 @@
     "spread_name": "상황/장애물/조언",
     "cards": [
       {
+        "id": "card_entry_002_001",
         "card_id": 22,
         "position": "상황",
         "direction": "upright",
         "interpretation": "새로운 시도를 향한 열정이 높습니다. 기회를 잡기 위한 준비가 잘 되어 있어요."
       },
       {
+        "id": "card_entry_002_002",
         "card_id": 51,
         "position": "장애물",
         "direction": "reversed",
         "interpretation": "결정 장애가 생기거나 균형을 잡기 어려운 상태입니다. 우선순위를 다시 정해보세요."
       },
       {
+        "id": "card_entry_002_003",
         "card_id": 64,
         "position": "조언",
         "direction": "upright",
