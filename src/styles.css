@@ -698,7 +698,7 @@ select {
 }
 
 .card-layout.layout-many {
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: 1fr;
 }
 
 .buyer-card {
@@ -737,8 +737,8 @@ select {
   backface-visibility: hidden;
   border-radius: var(--radius-sm);
   overflow: hidden;
-  border: 1px solid rgba(246, 195, 86, 0.65);
-  box-shadow: 0 0 12px rgba(246, 195, 86, 0.22);
+  border: 2px solid rgba(246, 195, 86, 0.85);
+  box-shadow: 0 0 20px rgba(246, 195, 86, 0.5), inset 0 0 10px rgba(246, 195, 86, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -948,6 +948,12 @@ select {
 
   .card-layout.layout-three {
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+@media (min-width: 961px) {
+  .card-layout.layout-many {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
 }
 
