@@ -841,6 +841,10 @@ select {
   transition: max-height 0.4s ease, opacity 0.4s ease;
   color: var(--text-1);
   line-height: 1.6;
+  background: rgba(246, 195, 86, 0.08);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border-left: 2px solid rgba(246, 195, 86, 0.4);
 }
 
 .interpretation.open {
