@@ -839,7 +839,7 @@ select {
   overflow: hidden;
   opacity: 0;
   transition: max-height 0.4s ease, opacity 0.4s ease;
-  color: var(--text-1);
+  color: #f5f7fb;
   line-height: 1.6;
   background: rgba(246, 195, 86, 0.08);
   padding: 12px 14px;
