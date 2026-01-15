@@ -750,8 +750,8 @@ select {
   position: absolute;
   inset: -40%;
   background: linear-gradient(120deg, transparent 30%, rgba(255, 234, 170, 0.25) 45%, transparent 60%);
-  opacity: 0.55;
-  animation: shimmerGold 3.8s ease-in-out infinite;
+  opacity: 0.2;
+  animation: shimmerGold 5s ease-in-out infinite;
   pointer-events: none;
 }
 
