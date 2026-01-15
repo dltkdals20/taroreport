@@ -4,8 +4,8 @@ export default function Home() {
   return (
     <div className="page home">
       <header className="hero">
-        <p className="eyebrow">TAROT REPORT STUDIO</p>
-        <h1>타로 해석 리포트 플랫폼</h1>
+        <p className="eyebrow">GYEOL TAROT REPORT</p>
+        <h1>결쌤 타로 리포트</h1>
         <p className="subtitle">
           리더는 빠르게 해석을 작성하고, 구매자는 카드 뒤집기와 함께
           해석을 확인하는 몰입형 리포트 경험을 제공합니다.

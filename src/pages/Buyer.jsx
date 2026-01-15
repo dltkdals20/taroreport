@@ -29,7 +29,7 @@ export default function Buyer() {
       <header className="top-bar">
         <div>
           <p className="eyebrow">BUYER VIEW</p>
-          <h1>타로 리포트 확인</h1>
+          <h1>결쌤 타로 리포트</h1>
           <p className="subtitle">카드를 뒤집고 해석을 확인해보세요.</p>
         </div>
         <div className="top-actions">
@@ -47,7 +47,13 @@ export default function Buyer() {
         </div>
       </header>
 
-      <BuyerReport report={activeReport} cardsById={cardsById} onShare={handleShare} onReset={() => navigate('/')} />
+      <BuyerReport
+        report={activeReport}
+        cardsById={cardsById}
+        positionTop
+        onShare={handleShare}
+        onReset={() => navigate('/')}
+      />
     </div>
   );
 }

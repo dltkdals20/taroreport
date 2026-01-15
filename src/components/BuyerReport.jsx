@@ -14,7 +14,7 @@ export default function BuyerReport({
   cardsById,
   showHeader = true,
   autoReveal = true,
-  positionTop = false,
+  positionTop = true,
   onShare,
   onReset
 }) {
@@ -70,8 +70,8 @@ export default function BuyerReport({
     try {
       const shareUrl = onShare ? await onShare(report) : window.location.href;
       const shareData = {
-        title: '타로 리포트',
-        text: `${report.customer_name}님의 타로 리포트입니다.`,
+        title: '결쌤 타로 리포트',
+        text: `${report.customer_name}님의 결쌤 타로 리포트입니다.`,
         url: shareUrl || window.location.href
       };
       if (navigator.share) {
@@ -87,6 +87,7 @@ export default function BuyerReport({
 
   return (
     <div className="buyer-report">
+      <div className="mystic-bg" aria-hidden="true" />
       {showHeader && (
         <header className="report-header">
           <div>
@@ -118,7 +119,10 @@ export default function BuyerReport({
           const positionLabel = entry.position || '포지션';
 
           return (
-            <article className="buyer-card" key={`${entry.card_id ?? 'none'}-${index}`}>
+            <article
+              className="buyer-card"
+              key={`${entry.card_id ?? 'none'}-${index}`}
+            >
               {positionTop && (
                 <div className="position-badge">
                   <span className="position highlight">🔮 {positionLabel}</span>
@@ -126,11 +130,13 @@ export default function BuyerReport({
               )}
               <div
                 className={`flip-card ${isFlipped ? 'is-flipped' : ''}`}
-                onClick={() => setFlipped((prev) => ({ ...prev, [index]: !prev[index] }))}
+                onClick={() => {
+                  setFlipped((prev) => ({ ...prev, [index]: !prev[index] }));
+                }}
               >
                 <div className="flip-card-inner">
                   <div className="flip-card-face back">
-                    <div className="card-back">TAROT</div>
+                    <div className="card-back">GYEOL</div>
                   </div>
                   <div className="flip-card-face front">
                     {card.image_url ? (
@@ -161,7 +167,9 @@ export default function BuyerReport({
               <button
                 className="btn primary"
                 type="button"
-                onClick={() => setExpanded((prev) => ({ ...prev, [index]: !prev[index] }))}
+                onClick={() => {
+                  setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
+                }}
                 disabled={!isFlipped}
               >
                 해석보기

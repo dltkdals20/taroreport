@@ -77,7 +77,7 @@ export default function Share() {
       <header className="top-bar">
         <div>
           <p className="eyebrow">SHARED REPORT</p>
-          <h1>타로 리포트 확인</h1>
+          <h1>결쌤 타로 리포트</h1>
           <p className="subtitle">공유받은 리포트를 확인하세요.</p>
         </div>
         <div className="top-actions">
@@ -85,7 +85,7 @@ export default function Share() {
         </div>
       </header>
 
-      <BuyerReport report={report} cardsById={cardsById} onReset={() => navigate('/')} />
+      <BuyerReport report={report} cardsById={cardsById} positionTop onReset={() => navigate('/')} />
     </div>
   );
 }
