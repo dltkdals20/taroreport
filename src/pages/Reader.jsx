@@ -261,7 +261,7 @@ export default function Reader() {
       <header className="top-bar">
         <div>
           <p className="eyebrow">READER CONSOLE</p>
-          <h1>타로 리더 해석 작성</h1>
+          <h1>타로 리딩 해석 작성</h1>
           <p className="subtitle">대기 중인 상담을 선택하고 해석을 작성하세요.</p>
         </div>
         <div className="top-actions">

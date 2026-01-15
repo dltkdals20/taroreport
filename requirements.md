@@ -127,7 +127,7 @@
 - 데이터: JSON 파일 또는 Firebase/Supabase
 
 ## 6. 우선순위
-1. 타로 리더 해석 작성 기능
+1. 타로 리딩 해석 작성 기능
 2. 구매자 결과 확인 페이지(슈퍼베이스 연결, 링크 전달)
 3. 공유 기능
 
@@ -1580,7 +1580,7 @@ export default function Reader() {
       <header className="top-bar">
         <div>
           <p className="eyebrow">READER CONSOLE</p>
-          <h1>타로 리더 해석 작성</h1>
+          <h1>타로 리딩 해석 작성</h1>
           <p className="subtitle">대기 중인 상담을 선택하고 해석을 작성하세요.</p>
         </div>
         <div className="top-actions">
@@ -2436,7 +2436,7 @@ export default function BuyerReport({ report, cardsById, showHeader = true, onRe
 ## 9. 체크리스트
 
 ### 완료된 기능
-- [x] 타로 리더 해석 작성 기능
+- [x] 타로 리딩 해석 작성 기능
 - [x] 구매자 결과 확인 페이지
 - [x] 카드 뒤집기 애니메이션
 - [x] 해석 펼침 기능
