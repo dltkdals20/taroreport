@@ -848,7 +848,7 @@ select {
 }
 
 .interpretation.open {
-  max-height: 300px;
+  max-height: none;
   opacity: 1;
 }
 
