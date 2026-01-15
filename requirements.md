@@ -2452,3 +2452,15 @@ export default function BuyerReport({ report, cardsById, showHeader = true, onRe
 - [ ] 검색 기능 확장 (카테고리 교차 검색)
 - [ ] 리포트 복제 기능
 - [ ] 클라우드 동기화 (Firebase/Supabase)
+
+## 10. 작업 내역
+### 2026-01-15
+- 카드 데이터 78장 전체 구성 및 Sacred Texts 이미지 URL 적용
+- 카드 ID 충돌 수정(소드/펜타클 충돌 방지)
+- 리더 화면: 고객 이름/질문 입력 필드 추가
+- 구매자 화면: 키워드 배지 카드 상단 고정, 이모지 🔮 적용
+- 해석보기 버튼으로 해석 노출(클릭 후 펼침)
+- 공유 링크 생성/복사 UI 추가, /share/:token 페이지 구성
+- Supabase 연동(클라이언트, 리포트 저장/불러오기, share_token) + 테이블명 tarot_reports
+- 로그인/관리자 제한(ProtectedRoute, Login, VITE_ADMIN_EMAIL)
+- 브랜드 타이틀 “결쌤 타로 리포트” 반영
