@@ -9,6 +9,7 @@ import CardEditorItem from '../components/CardEditorItem.jsx';
 import TemplateBar from '../components/TemplateBar.jsx';
 import SnippetBar from '../components/SnippetBar.jsx';
 import BuyerReport from '../components/BuyerReport.jsx';
+import { getTodayDateString } from '../utils/date.js';
 
 const POSITION_SUGGESTIONS = [
   '과거',
@@ -61,6 +62,7 @@ export default function Reader() {
   const [snippets, setSnippets] = useLocalStorage('tarotSnippets', []);
 
   const cardsById = useMemo(() => new Map(cardsData.map((card) => [card.id, card])), []);
+  const todayDate = getTodayDateString();
 
   const filteredReports = reports.filter((report) => report.status === statusFilter);
   const activeReport = reports.find((report) => report.id === activeReportId) || reports[0];
@@ -327,7 +329,7 @@ export default function Reader() {
                 >
                   <div>
                     <p className="list-title">{report.customer_name}</p>
-                    <p className="list-meta">{report.request_date}</p>
+                    <p className="list-meta">{todayDate}</p>
                     <p className="list-question">{report.question}</p>
                   </div>
                   <span className={`status ${report.status}`}>{report.status === 'pending' ? '대기' : '완료'}</span>
@@ -354,7 +356,7 @@ export default function Reader() {
                       placeholder="고객 이름을 입력하세요"
                     />
                   </label>
-                  <p className="muted">요청일 {activeReport.request_date}</p>
+                  <p className="muted">요청일 {todayDate}</p>
                 </div>
                 <div className="editor-status">
                   <span className={`status ${activeReport.status}`}>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { getTodayDateString } from '../utils/date.js';
 
 const fallbackCard = {
   name_kr: '알 수 없음',
@@ -20,6 +21,7 @@ export default function BuyerReport({
 }) {
   const [flipped, setFlipped] = useState({});
   const [expanded, setExpanded] = useState({});
+  const todayDate = getTodayDateString();
 
   useEffect(() => {
     if (!report) {
@@ -93,7 +95,7 @@ export default function BuyerReport({
           <div>
             <p className="eyebrow">REPORT</p>
             <h2>{report.customer_name}님의 상담 리포트</h2>
-            <p className="muted">상담일 {report.request_date} · {spreadInfo}</p>
+            <p className="muted">상담일 {todayDate} · {spreadInfo}</p>
           </div>
           <div className="header-actions">
             <button className="btn ghost" type="button" onClick={handleToggleAll}>

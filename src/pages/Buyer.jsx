@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import cardsData from '../data/cards.json';
 import { useReportContext } from '../contexts/ReportContext.jsx';
 import BuyerReport from '../components/BuyerReport.jsx';
+import { getTodayDateString } from '../utils/date.js';
 
 export default function Buyer() {
   const navigate = useNavigate();
   const { reports, activeReportId, setActiveReportId, ensureShareToken, isSupabaseConfigured } = useReportContext();
   const cardsById = useMemo(() => new Map(cardsData.map((card) => [card.id, card])), []);
   const activeReport = reports.find((report) => report.id === activeReportId) || reports[0];
+  const todayDate = getTodayDateString();
 
   const handleShare = async (report) => {
     if (!report) {
@@ -39,7 +41,7 @@ export default function Buyer() {
           >
             {reports.map((report) => (
               <option key={report.id} value={report.id}>
-                {report.customer_name} · {report.request_date}
+                {report.customer_name} · {todayDate}
               </option>
             ))}
           </select>
