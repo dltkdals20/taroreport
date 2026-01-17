@@ -143,7 +143,7 @@ export function ReportProvider({ children }) {
     }
   }, [setActiveReportId, setReports]);
 
-  const ensureShareToken = useCallback(async (id) => {
+  const ensureShareToken = useCallback(async (id, forceNew = false) => {
     if (!supabase || !user) {
       return null;
     }
@@ -151,9 +151,11 @@ export function ReportProvider({ children }) {
     if (!current) {
       return null;
     }
-    if (current.share_token) {
+    // forceNew가 false이고 이미 share_token이 있으면 기존 토큰 반환
+    if (!forceNew && current.share_token) {
       return current.share_token;
     }
+    // 새 토큰 생성
     const token = (typeof crypto !== 'undefined' && crypto.randomUUID)
       ? crypto.randomUUID()
       : `${Date.now()}-${Math.random().toString(16).slice(2)}`;

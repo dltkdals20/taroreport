@@ -252,7 +252,8 @@ export default function Reader() {
     }
     updateReport(activeReport.id, { status: 'completed' });
     setStatusFilter('completed');
-    const token = await ensureShareToken(activeReport.id);
+    // forceNew: true로 설정하여 항상 새 토큰 생성
+    const token = await ensureShareToken(activeReport.id, true);
     if (!token) {
       showToast('링크 생성에 실패했습니다.');
       return;
