@@ -1010,7 +1010,15 @@ select {
 
 @media (min-width: 961px) {
   .card-layout.layout-many {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .buyer-card {
+    padding: 20px;
+  }
+  
+  .flip-card {
+    max-width: 280px;
   }
 }
 

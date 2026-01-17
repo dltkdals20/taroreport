@@ -45,7 +45,8 @@ export default function Reader() {
     saveStatus,
     isOnline,
     saveReportNow,
-    savedReports
+    savedReports,
+    createNewReport
   } = useReportContext();
   const { signOut } = useAuth();
   const [statusFilter, setStatusFilter] = useState('pending');
@@ -301,7 +302,25 @@ export default function Reader() {
       <div className="reader-grid">
         <section className="panel report-list">
           <div className="panel-header">
-            <h2>상담 목록</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+              <h2>상담 목록</h2>
+              <button
+                type="button"
+                className="btn primary"
+                onClick={async () => {
+                  const newId = await createNewReport();
+                  if (newId) {
+                    setStatusFilter('pending');
+                    showToast('새 상담이 추가되었습니다.');
+                  } else {
+                    showToast('새 상담 추가에 실패했습니다.');
+                  }
+                }}
+                style={{ marginLeft: 'auto', fontSize: '0.875rem', padding: '0.5rem 1rem' }}
+              >
+                + 새 상담 추가
+              </button>
+            </div>
             <div className="pill-row">
               <button
                 type="button"

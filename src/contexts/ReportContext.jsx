@@ -195,6 +195,53 @@ export function ReportProvider({ children }) {
     await upsertReport(report);
   }, [reports, upsertReport]);
 
+  // 새 리포트 생성 함수
+  const createNewReport = useCallback(async () => {
+    if (!supabase || !user) {
+      console.error('[createNewReport] supabase or user not available');
+      return null;
+    }
+
+    // 고유 ID 생성 (타임스탬프 기반)
+    const newId = `report_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    const todayDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 형식
+
+    // 새 리포트 기본 구조
+    const newReport = {
+      id: newId,
+      customer_name: '',
+      request_date: todayDate,
+      question: '',
+      status: 'pending',
+      spread_name: '과거/현재/미래',
+      cards: [],
+      overall_advice: '',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    // 로컬 상태에 추가
+    setReports((prev) => {
+      const updated = [newReport, ...prev];
+      reportsRef.current = updated;
+      return updated;
+    });
+
+    // 활성 리포트로 설정
+    setActiveReportId(newId);
+
+    // Supabase에 저장
+    try {
+      await upsertReport(newReport);
+      console.log('[createNewReport] new report created', newId);
+      return newId;
+    } catch (error) {
+      console.error('[createNewReport] failed to save new report', error);
+      // 에러가 발생해도 로컬 상태는 유지 (오프라인 모드 지원)
+      return newId;
+    }
+  }, [supabase, user, upsertReport, setReports, setActiveReportId]);
+
   // 온라인 복귀 시 오프라인 큐 재시도
   useEffect(() => {
     if (!isOnline || offlineQueue.current.size === 0) {
@@ -251,8 +298,9 @@ export function ReportProvider({ children }) {
     saveStatus,
     isOnline,
     saveReportNow,
-    savedReports
-  }), [activeReportId, ensureShareToken, replaceReports, reports, setActiveReportId, updateReport, saveStatus, isOnline, saveReportNow, savedReports]);
+    savedReports,
+    createNewReport
+  }), [activeReportId, ensureShareToken, replaceReports, reports, setActiveReportId, updateReport, saveStatus, isOnline, saveReportNow, savedReports, createNewReport]);
 
   return <ReportContext.Provider value={value}>{children}</ReportContext.Provider>;
 }
