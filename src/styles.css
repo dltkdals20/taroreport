@@ -840,7 +840,7 @@ select {
   opacity: 0;
   transition: max-height 0.4s ease, opacity 0.4s ease;
   color: #f5f7fb;
-  line-height: 1.6;
+  line-height: 1.8;
   background: rgba(246, 195, 86, 0.08);
   padding: 12px 14px;
   border-radius: var(--radius-sm);
@@ -850,6 +850,59 @@ select {
 .interpretation.open {
   max-height: none;
   opacity: 1;
+}
+
+.interpretation p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.interpretation-section {
+  margin-bottom: 16px;
+}
+
+.interpretation-section:last-child {
+  margin-bottom: 0;
+}
+
+.advice-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(246, 195, 86, 0.2);
+}
+
+.section-header {
+  margin-bottom: 10px;
+}
+
+.section-content {
+  color: #f5f7fb;
+  line-height: 1.8;
+}
+
+.section-content p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.interpretation-keyword {
+  display: inline-block;
+  background: rgba(61, 214, 192, 0.2);
+  color: #9ef0df;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.advice-keyword {
+  display: inline-block;
+  background: rgba(246, 195, 86, 0.25);
+  color: #ffe1a6;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95em;
 }
 
 .advice-box {

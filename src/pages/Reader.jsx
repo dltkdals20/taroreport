@@ -293,7 +293,7 @@ export default function Reader() {
         </div>
         <div className="top-actions">
           <button className="btn ghost" type="button" onClick={() => navigate('/')}>홈으로</button>
-          <button className="btn ghost" type="button" onClick={() => setSavedListOpen(true)}>📋 저장 목록 ({savedReports.length})</button>
+          <button className="btn ghost" type="button" onClick={() => setSavedListOpen(true)}>📋 저장 목록 ({reports.length})</button>
           <button className="btn ghost" type="button" onClick={() => setPreviewOpen(true)}>미리보기</button>
           <button className="btn ghost" type="button" onClick={() => signOut()}>로그아웃</button>
         </div>
@@ -545,11 +545,18 @@ export default function Reader() {
             </header>
 
             <div style={{ padding: '16px 20px 20px', overflowY: 'auto', maxHeight: '70vh' }}>
-              {savedReports.length === 0 ? (
+              {reports.length === 0 ? (
                 <p style={{ color: 'var(--text-2)', textAlign: 'center' }}>저장된 리포트가 없습니다.</p>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {savedReports.map((report) => (
+                  {reports
+                    .sort((a, b) => {
+                      // updated_at 기준으로 최신순 정렬
+                      const dateA = new Date(a.updated_at || a.created_at || 0);
+                      const dateB = new Date(b.updated_at || b.created_at || 0);
+                      return dateB - dateA;
+                    })
+                    .map((report) => (
                     <button
                       key={report.id}
                       type="button"
@@ -584,7 +591,11 @@ export default function Reader() {
                           {report.customer_name}
                         </p>
                         <p style={{ fontSize: '12px', color: 'var(--text-2)', marginBottom: '4px' }}>
-                          {new Date(report.updated_at).toLocaleString('ko-KR')}
+                          {report.updated_at 
+                            ? new Date(report.updated_at).toLocaleString('ko-KR')
+                            : report.created_at 
+                            ? new Date(report.created_at).toLocaleString('ko-KR')
+                            : '날짜 없음'}
                         </p>
                         <span
                           className={`status ${report.status}`}

@@ -10,6 +10,23 @@ const fallbackCard = {
 const fallbackSrc =
   'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"360\"><rect width=\"100%\" height=\"100%\" fill=\"%23131b2a\"/><text x=\"50%\" y=\"50%\" fill=\"%23aab3c2\" font-size=\"20\" font-family=\"sans-serif\" text-anchor=\"middle\" dominant-baseline=\"middle\">Tarot</text></svg>';
 
+// 해석 텍스트를 파싱하여 해석과 조언을 분리하는 함수
+const parseInterpretation = (text) => {
+  if (!text) return { interpretation: null, advice: null };
+  
+  // "해석:"과 "조언:"으로 텍스트 분리
+  const interpretationMatch = text.match(/해석:\s*(.*?)(?=조언:|$)/s);
+  const adviceMatch = text.match(/조언:\s*(.*?)$/s);
+  
+  const interpretation = interpretationMatch 
+    ? interpretationMatch[1].trim() 
+    : (text.includes('조언:') ? null : text.trim());
+  
+  const advice = adviceMatch ? adviceMatch[1].trim() : null;
+  
+  return { interpretation, advice };
+};
+
 export default function BuyerReport({
   report,
   cardsById,
@@ -178,7 +195,38 @@ export default function BuyerReport({
               </button>
 
               <div className={`interpretation ${isExpanded ? 'open' : ''}`}>
-                <p>{entry.interpretation || '해석이 아직 작성되지 않았습니다.'}</p>
+                {entry.interpretation ? (() => {
+                  const { interpretation, advice } = parseInterpretation(entry.interpretation);
+                  return (
+                    <>
+                      {interpretation && (
+                        <div className="interpretation-section">
+                          <div className="section-header">
+                            <span className="interpretation-keyword">해석:</span>
+                          </div>
+                          <div className="section-content">
+                            <p>{interpretation}</p>
+                          </div>
+                        </div>
+                      )}
+                      {advice && (
+                        <div className="advice-section">
+                          <div className="section-header">
+                            <span className="advice-keyword">조언:</span>
+                          </div>
+                          <div className="section-content">
+                            <p>{advice}</p>
+                          </div>
+                        </div>
+                      )}
+                      {!interpretation && !advice && (
+                        <p>해석이 아직 작성되지 않았습니다.</p>
+                      )}
+                    </>
+                  );
+                })() : (
+                  <p>해석이 아직 작성되지 않았습니다.</p>
+                )}
               </div>
             </article>
           );
