@@ -15,6 +15,12 @@ export function ReportProvider({ children }) {
   const [savedReports, setSavedReports] = useState([]); // 저장된 리포트 이력
   const saveTimers = useRef(new Map());
   const offlineQueue = useRef(new Map()); // 오프라인 시 저장 대기 큐
+  const reportsRef = useRef(reports); // 최신 reports 상태를 추적하기 위한 ref
+
+  // reports가 변경될 때마다 ref도 업데이트
+  useEffect(() => {
+    reportsRef.current = reports;
+  }, [reports]);
 
   // 온라인/오프라인 상태 감지
   useEffect(() => {
@@ -145,10 +151,13 @@ export function ReportProvider({ children }) {
 
   const ensureShareToken = useCallback(async (id, forceNew = false) => {
     if (!supabase || !user) {
+      console.error('[ensureShareToken] supabase or user not available');
       return null;
     }
-    const current = reports.find((report) => report.id === id);
+    // ref를 사용하여 항상 최신 리포트 상태를 가져옴
+    const current = reportsRef.current.find((report) => report.id === id);
     if (!current) {
+      console.error('[ensureShareToken] report not found', id);
       return null;
     }
     // forceNew가 false이고 이미 share_token이 있으면 기존 토큰 반환
@@ -159,13 +168,23 @@ export function ReportProvider({ children }) {
     const token = (typeof crypto !== 'undefined' && crypto.randomUUID)
       ? crypto.randomUUID()
       : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-    const next = { ...current, share_token: token };
+    // 전체 링크 URL 생성
+    const shareUrl = typeof window !== 'undefined'
+      ? `${window.location.origin}/share/${token}`
+      : null;
+    // share_token과 share_url을 함께 저장
+    const next = { ...current, share_token: token, share_url: shareUrl };
+    console.log('[ensureShareToken] generating new token', { id, token, shareUrl, report: next });
     setReports((prev) =>
       prev.map((report) => (report.id === id ? next : report))
     );
+    // reportsRef도 즉시 업데이트
+    reportsRef.current = reportsRef.current.map((report) => (report.id === id ? next : report));
+    // Supabase에 저장
     await upsertReport(next);
+    console.log('[ensureShareToken] token and URL saved to supabase', { id, token, shareUrl });
     return token;
-  }, [reports, setReports, upsertReport]);
+  }, [setReports, upsertReport, supabase, user]);
 
   // 명시적 저장 함수 (저장 버튼 클릭 시)
   const saveReportNow = useCallback(async (id) => {

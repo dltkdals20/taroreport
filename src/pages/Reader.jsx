@@ -250,9 +250,11 @@ export default function Reader() {
       showToast('Supabase 설정이 필요합니다.');
       return;
     }
+    // 상태를 먼저 업데이트
     updateReport(activeReport.id, { status: 'completed' });
     setStatusFilter('completed');
     // forceNew: true로 설정하여 항상 새 토큰 생성
+    // ensureShareToken이 최신 상태를 사용하도록 수정됨
     const token = await ensureShareToken(activeReport.id, true);
     if (!token) {
       showToast('링크 생성에 실패했습니다.');
